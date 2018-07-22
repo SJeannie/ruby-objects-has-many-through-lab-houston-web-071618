@@ -1,0 +1,37 @@
+require_relative 'appointment'
+require_relative 'patient'
+require 'pry'
+
+class Doctor
+
+  attr_reader :name
+
+  @@all = []
+
+  def self.all
+    @@all
+  end
+
+  def initialize(name)
+    @name = name
+    Doctor.all << self
+  end
+
+  def new_appointment(patient, date)
+    Appointment.new(patient, self, date)
+  end
+
+  def appointments
+    Appointment.all.select do |appt|
+      appt.doctor == self
+    end
+  end
+
+  def patients
+    appointments.collect do |appt|
+      appt.patient
+      # binding.pry
+    end
+  end
+
+end
